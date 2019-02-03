@@ -101,6 +101,10 @@ If the the source account is NULL, then we simply have a credit to the Dest acco
 
 If the dest account is NULL, then we have a debit to the source account (Adding money to the balance)
 
+```
+constraint transactions check (source_account is not null or dest_account is not null)
+```
+
 | Type | Name | Notes |
 |:--|:--|:--|
 | UUID | id | PRIMARY |
