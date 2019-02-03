@@ -84,7 +84,7 @@ This represents period tallying of account balances, such that we can easily fig
 | UUID | account_id | FOREIGN |
 | UUID | last_tx_id | FOREIGN (just in case)|
 | FLOAT | balance ||
-| DATE | date ||
+| DATETIME | created_at ||	
 
 
 
