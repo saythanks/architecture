@@ -61,7 +61,6 @@ This represents each concrete payable item, likely represented by a tip/unlock b
 | UUID | id | PRIMARY |
 | UUID | app_id | FOREIGN KEY |
 | TEXT | display_name ||
-| TEXT | display_name ||
 | FLOAT | display_price | *may be different from real transaction price*|
 | TEXT | permalink ||
 | * | timestamps ||
