@@ -52,7 +52,7 @@ Fields are NOT NULLABLE unless otherwise specified.
 | BOOLEAN | active | default=false |
 | * | timestamps ||
 
-### PayBuckets
+### Payable
 
 This represents each concrete payable item, likely represented by a tip/unlock button on a webpage. This means a PayBucket could represent an article, a webpage, a single newsletter, etc.
 
@@ -89,29 +89,36 @@ This represents period tallying of account balances, such that we can easily fig
 
 
 
-### Transactions
+# Transactions
 
-This is this most important table, and it contains the most varied info. It needs to represent the following actions:
+## Deposit
+| Type | Name | Notes |
+|:--|:--|:--|
+| UUID | id | PRIMARY |
+| UUID | account_id | FOREIGN_KEY, NULLABLE |
+| FLOAT | amount ||
+| FLOAT | real_amount ||
+ TEXT | stripe_charge_id||
+| JSONB | stripe_data| *rest of JSON charge object stripe returns*|
+| * | timestamps ||
 
-- User adds money to their balance (Cash => User) (Debit User)
-- Users pays for item (User => App) (Credit User, Debit App)
-- App owner cashes out to bank (App => Cash) (Credit App)
-
-If the the source account is NULL, then we simply have a credit to the Dest account (i.e. a cash out).
-
-If the dest account is NULL, then we have a debit to the source account (Adding money to the balance)
-
-```sql
-constraint transactions check (source_account is not null or dest_account is not null)
-```
-
+## Payment
 | Type | Name | Notes |
 |:--|:--|:--|
 | UUID | id | PRIMARY |
 | UUID | source_account | FOREIGN_KEY, NULLABLE |
 | UUID | dest_account | FOREIGN_KEY, NULLABLE |
-| UUID | paybucket_id | FOREIGN_KEY, NULLABLE |
-| FLOAT | amount ||
-| TEXT | stripe_charge_id||
-| JSONB | stripe_data| *rest of JSON charge object stripe returns*|
+| UUID | payable_id | FOREIGN_KEY, NULLABLE |
+| INT | amount ||
+| * | timestamps ||
+
+
+## Withdraw
+| Type | Name | Notes |
+|:--|:--|:--|
+| UUID | id | PRIMARY |
+| UUID | account_id | FOREIGN_KEY, NULLABLE |
+| INT | amount ||
+| INT | real_amount ||
+| FLOAT | fee ||
 | * | timestamps ||
